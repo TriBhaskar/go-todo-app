@@ -1,57 +1,59 @@
+// main.go
 package main
 
 import (
-	"context"
 	"fmt"
-	"log"
-	"net/http"
-	"os/signal"
-	"syscall"
-	"time"
+	"os"
 
-	"go-todo-app/internal/server"
+	"github.com/spf13/cobra"
 )
 
-func gracefulShutdown(apiServer *http.Server, done chan bool) {
-	// Create context that listens for the interrupt signal from the OS.
-	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
-	defer stop()
-
-	// Listen for the interrupt signal.
-	<-ctx.Done()
-
-	log.Println("shutting down gracefully, press Ctrl+C again to force")
-
-	// The context is used to inform the server it has 5 seconds to finish
-	// the request it is currently handling
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-	if err := apiServer.Shutdown(ctx); err != nil {
-		log.Printf("Server forced to shutdown with error: %v", err)
-	}
-
-	log.Println("Server exiting")
-
-	// Notify the main goroutine that the shutdown is complete
-	done <- true
-}
-
 func main() {
-
-	server := server.NewServer()
-
-	// Create a done channel to signal when the shutdown is complete
-	done := make(chan bool, 1)
-
-	// Run graceful shutdown in a separate goroutine
-	go gracefulShutdown(server, done)
-
-	err := server.ListenAndServe()
-	if err != nil && err != http.ErrServerClosed {
-		panic(fmt.Sprintf("http server error: %s", err))
+	var rootCmd = &cobra.Command{
+		Use:   "myapp",
+		Short: "My CLI application",
+		Long:  `A longer description of my awesome CLI application built with Go and Cobra.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			// This is the code that will be executed when the root command is called
+			fmt.Println("Welcome to my CLI app! Use --help to see available commands.")
+		},
 	}
 
-	// Wait for the graceful shutdown to complete
-	<-done
-	log.Println("Graceful shutdown complete.")
+	var versionCmd = &cobra.Command{
+		Use:   "version",
+		Short: "Print the version number",
+		Long:  `Print the version number of the CLI application`,
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("myapp v0.1 - Alpha")
+		},
+	}
+
+	var getCmd = &cobra.Command{
+		Use:   "get [resource]",
+		Short: "Get a resource",
+		Long:  `Get a specific resource by name`,
+		Args:  cobra.MinimumNArgs(1),
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Printf("Getting resource: %s\n", args[0])
+			
+			// Access flags
+			all, _ := cmd.Flags().GetBool("all")
+			if all {
+				fmt.Println("Fetching all related resources too")
+			}
+		},
+	}
+
+	// Add flags to commands
+	getCmd.Flags().BoolP("all", "a", false, "Get all resources")
+	
+	// Add commands to root
+	rootCmd.AddCommand(versionCmd)
+	rootCmd.AddCommand(getCmd)
+
+	// Execute the root command
+	if err := rootCmd.Execute(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 }
