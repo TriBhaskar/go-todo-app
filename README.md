@@ -1,45 +1,68 @@
-# Project go-todo-app
+# Go Todo Application with Cobra
 
-A todo go cli application
+## Project Setup
 
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
-## MakeFile
-
-Run build make command with tests
+1. Initialize Go module:
 
 ```bash
-make all
+go mod init go-todo-app
 ```
 
-Build the application
+2. Install Cobra CLI tool:
 
 ```bash
-make build
+go install github.com/spf13/cobra-cli@latest
 ```
 
-Run the application
+3. Initialize Cobra project:
 
 ```bash
-make run
+cobra-cli init
 ```
 
-Live reload the application:
+A command-line todo application built with Go and Cobra CLI framework.
+
+## Features
+
+- Add tasks
+- List tasks
+- Mark tasks as complete
+- Delete tasks
+- Store tasks persistently
+
+## Installation
 
 ```bash
-make watch
+go get github.com/yourusername/go-todo-app
 ```
 
-Run the test suite:
+## Usage
 
 ```bash
-make test
+# Add a new task
+go-todo-app add "Buy groceries"
+
+# List all tasks
+go-todo-app list
+
+# Mark task as complete
+go-todo-app done 1
+
+# Delete a task
+go-todo-app delete 1
 ```
 
-Clean up binary from the last build:
+## Commands
 
-```bash
-make clean
-```
+- `add` - Add a new task
+- `list` - List all tasks
+- `done` - Mark a task as complete
+- `delete` - Delete a task
+
+## Dependencies
+
+- [Cobra](https://github.com/spf13/cobra)
+
+## License
+
+MIT License
