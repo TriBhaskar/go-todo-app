@@ -20,6 +20,12 @@ go install github.com/spf13/cobra-cli@latest
 cobra-cli init
 ```
 
+### For more info related to cobra go through
+
+https://github.com/spf13/cobra
+https://cobra.dev/#install
+https://pkg.go.dev/github.com/spf13/cobra#Command
+
 A command-line todo application built with Go and Cobra CLI framework.
 
 ## Features
