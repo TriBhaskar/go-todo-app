@@ -25,6 +25,11 @@ var rootCmd = &cobra.Command{
 			os.Exit(1)
 		}
 	},
+	// This will run if no subcommand is provided
+	Run: func(cmd *cobra.Command, args []string) {
+		// Start interactive mode by default
+		runInteractiveMode()
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
