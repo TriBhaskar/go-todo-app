@@ -44,18 +44,35 @@ go get github.com/yourusername/go-todo-app
 
 ## Usage
 
+The application can be used in two modes:
+
+### Interactive Mode
+
 ```bash
-# Add a new task
-go-todo-app add "Buy groceries"
+go-todo-app
+```
 
-# List all tasks
-go-todo-app list
+This will start the interactive todo manager:
 
-# Mark task as complete
-go-todo-app done 1
+```
+_____       _______        _
+  / ____|     |__   __|      | |
+ | |  __  ___    | | ___   __| | ___
+ | | |_ |/ _ \   | |/ _ \ / _  |/ _ \
+ | |__| | (_) |  | | (_) | (_| | (_) |
+  \_____|\___/   |_|\___/ \__,_|\___/
 
-# Delete a task
-go-todo-app delete 1
+  Interactive Todo Manager
+
+--------------------------------
+Available commands:
+  add [title]      - Add a new todo
+  list             - List all todos
+  list -a          - List all todos including completed ones
+  done [id]        - Mark a todo as done
+  rm [id]          - Remove a todo
+  help             - Show this help menu
+  quit, exit       - Exit the program
 ```
 
 ## Commands
@@ -63,7 +80,7 @@ go-todo-app delete 1
 - `add` - Add a new task
 - `list` - List all tasks
 - `done` - Mark a task as complete
-- `delete` - Delete a task
+- `rm` - Delete a task
 
 ## Dependencies
 
